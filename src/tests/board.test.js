@@ -53,3 +53,14 @@ describe('Validates ship positions are not overlapping', () => {
     expect(() => boardFactory({ ships: [ship1, ship2] })).toThrowError();
   });
 });
+
+describe('Validates ship positions are not outside board', () => {
+  test('throws error if ship is outside board', () => {
+    const ship1 = shipFactory({
+      startPos: [0, 0],
+      length: 4,
+      orientation: [0, -1],
+    });
+    expect(() => boardFactory({ ships: [ship1] })).toThrowError();
+  });
+});
