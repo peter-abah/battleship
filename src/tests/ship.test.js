@@ -1,6 +1,6 @@
 import shipFactory from '../shipFactory';
 
-describe.only('Creating a new ship', () => {
+describe('Creating a new ship', () => {
   const ship = shipFactory({
     startPos: [0, 0],
     length: 5,
@@ -73,10 +73,10 @@ describe('#positions method returns the correct positions of ship', () => {
       orientation: [1, 0],
     });
     const expectedPositions = [
-      [0, 0],
-      [1, 0],
-      [2, 0],
-      [3, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
     ];
     expect(ship.positions).toEqual(expectedPositions);
   });
