@@ -9,11 +9,26 @@ const shipFactory = ({ startPos, length, orientation }) => {
     return positions;
   };
 
+  const positions = initPositions();
+  const attackedPositions = [];
+
+  const canAttack = (pos) =>
+    positions.some((e) => e[0] === pos[0] && e[1] === pos[1]);
+
+  const receiveAttack = (pos) => {
+    if (!canAttack(pos)) return false;
+
+    attackedPositions.push(pos);
+    return true;
+  };
+
   const self = {
     startPos,
     length,
     orientation,
-    positions: initPositions(),
+    positions,
+    attackedPositions,
+    receiveAttack,
   };
   Object.freeze(self);
 

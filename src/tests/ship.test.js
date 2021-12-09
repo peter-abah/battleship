@@ -83,35 +83,49 @@ describe('#positions method returns the correct positions of ship', () => {
 });
 
 describe('#receiveAttack method returns if attack was sucessful', () => {
-  const ship = shipFactory({
-    startPos: [0, 0],
-    length: 5,
-    orientation: [0, 1],
-  });
-
   test('Returns true if pos is part of it positions', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 5,
+      orientation: [0, 1],
+    });
+
     expect(ship.receiveAttack([0, 4])).toBe(true);
   });
 
   test('Returns false if pos is not part of positions', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 5,
+      orientation: [0, 1],
+    });
+
     expect(ship.receiveAttack([1, 5])).toBe(false);
   });
 });
 
 describe('#receiveAttack method adds the pos to attackedPositions if it was sucessful', () => {
-  const ship = shipFactory({
-    startPos: [0, 0],
-    length: 5,
-    orientation: [0, 1],
-  });
-
   test('Adds pos to attackedPositions when succesful', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 5,
+      orientation: [0, 1],
+    });
+
     ship.receiveAttack([0, 3]);
-    expect(ship.attackedPositions).toContain([0, 3]);
+    const shipContainsPos = ship.attackedPositions.some((e) => e[0] === 0 && e[1] === 3);
+    expect(shipContainsPos).toBe(true);
   });
 
   test('Does not add pos to attackedPositions when not sucessful', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 5,
+      orientation: [0, 1],
+    });
+
     ship.receiveAttack([1, 6]);
-    expect(ship.attackedPositions).not.toContain([0, 3]);
+    const shipContainsPos = ship.attackedPositions.some((e) => e[0] === 1 && e[1] === 6);
+    expect(shipContainsPos).toBe(false);
   });
 });
