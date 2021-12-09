@@ -6,9 +6,23 @@ const boardFactory = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
 } = {}) => {
+  const getAllShipsPositions = () =>
+    ships.reduce((positions, ship) => positions.concat(ship.positions), []);
+
+  const validateShips = () => {
+    const checkedPositions = {};
+    const shipPositions = getAllShipsPositions();
+    shipPositions.forEach((e) => {
+      if (checkedPositions[e]) throw new Error('Invalid ship placements');
+      checkedPositions[e] = true;
+    });
+    return true;
+  };
+
   const initState = () =>
     new Array(height).fill().map(() => new Array(width).fill(0));
 
+  validateShips();
   const state = initState();
 
   const self = {
