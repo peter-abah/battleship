@@ -9,13 +9,27 @@ const boardFactory = ({
   const getAllShipsPositions = () =>
     ships.reduce((positions, ship) => positions.concat(ship.positions), []);
 
-  const validateShips = () => {
+  const isShipsOverlapping = (positions) => {
     const checkedPositions = {};
-    const shipPositions = getAllShipsPositions();
-    shipPositions.forEach((e) => {
-      if (checkedPositions[e]) throw new Error('Invalid ship placements');
+    return !positions.every((e) => {
+      if (checkedPositions[e]) return false;
+
       checkedPositions[e] = true;
+      return true;
     });
+  };
+
+  const isShipsOutOfBounds = (positions) =>
+    !positions.every(([x, y]) => x < width && y < height && x >= 0 && y >= 0);
+
+  const validateShips = () => {
+    const shipsPositions = getAllShipsPositions();
+    if (
+      isShipsOutOfBounds(shipsPositions)
+      || isShipsOverlapping(shipsPositions)
+    ) {
+      throw new Error('Invalid ship placements');
+    }
     return true;
   };
 
