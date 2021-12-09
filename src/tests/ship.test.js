@@ -1,6 +1,6 @@
-import shipFactory from './shipFactory';
+import shipFactory from '../shipFactory';
 
-describe('Creating a new ship', () => {
+describe.only('Creating a new ship', () => {
   const ship = shipFactory({
     startPos: [0, 0],
     length: 5,
@@ -8,11 +8,11 @@ describe('Creating a new ship', () => {
   });
 
   test('The ship has the correct start pos', () => {
-    expect(ship.pos).toEqual([0, 0]);
+    expect(ship.startPos).toEqual([0, 0]);
   });
 
   test('The ship has the correct length', () => {
-    expect(ship.length).toEqual([5]);
+    expect(ship.length).toEqual(5);
   });
 
   test('The ship has the correct orientation', () => {
