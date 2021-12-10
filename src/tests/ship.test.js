@@ -82,6 +82,22 @@ describe('#positions method returns the correct positions of ship', () => {
   });
 });
 
+describe('#isPos method indicates if a pos is part of ship positions', () => {
+  const ship = shipFactory({
+    startPos: [1, 1],
+    length: 4,
+    orientation: [0, 1]
+  })
+
+  test('Returns true if pos is part of ship positions', () => {
+    expect(ship.isPos([1, 3])).toBe(true)
+  });
+
+  test('Returns false if pos is not part of ship positions', () => {
+    expect(ship.isPos([2, 3])).toBe(false``)
+  });
+});
+
 describe('#receiveAttack method returns if attack was sucessful', () => {
   test('Returns true if pos is part of it positions', () => {
     const ship = shipFactory({
