@@ -12,11 +12,11 @@ const shipFactory = ({ startPos, length, orientation }) => {
   const positions = initPositions();
   const attackedPositions = [];
 
-  const canAttack = (pos) =>
+  const isPos = (pos) =>
     positions.some((e) => e[0] === pos[0] && e[1] === pos[1]);
 
   const receiveAttack = (pos) => {
-    if (!canAttack(pos)) return false;
+    if (!isPos(pos)) return false;
 
     attackedPositions.push(pos);
     return true;
@@ -29,6 +29,7 @@ const shipFactory = ({ startPos, length, orientation }) => {
     positions,
     attackedPositions,
     receiveAttack,
+    isPos,
   };
   Object.freeze(self);
 
