@@ -34,14 +34,17 @@ const boardFactory = ({
   };
 
   const initState = () =>
-    new Array(height).fill().map(() => new Array(width).fill(0));
+    new Array(height).fill().map(() => new Array(width).fill(false));
 
   validateShips();
   const state = initState();
 
+  const square_at = ({x, y}) => state[y][x];
+
   const self = {
     state,
     ships,
+    square_at,
   };
 
   return self;
