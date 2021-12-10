@@ -130,3 +130,16 @@ describe('#receiveAttack send receive attack to ship', () => {
     spy.mockRestore();
   });
 });
+
+describe('receiveAttack method throws error if pos is invalid', () => {
+  test('throws error if pos is out of bounds', () => {
+    const board = boardFactory();
+    expect(() => board.receiveAttack([10, 5])).toThrowError();
+  });
+
+  test('throws error if pos has been attacked before', () => {
+    const board = boardFactory();
+    board.receiveAttack([3 , 5]);
+    expect(() => board.receiveAttack([3, 5])).toThrowError();
+  });
+});
