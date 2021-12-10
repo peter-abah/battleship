@@ -1,24 +1,34 @@
 import boardFactory from '../boardFactory';
 import shipFactory from '../shipFactory';
 
+const isBoardStateEmpty = (board) => {
+  for(let y = 0; y < board.height; y += 1) {
+    for(let x = 0; x < board.width; x += 1) {
+      const square = board.square_at({ x, y});
+      if (square) return false;
+    }
+  }
+  return true;
+};
+
 describe('Creating a new board', () => {
   const board = boardFactory();
 
-  test('Board has correct state', () => {
-    const isStateEmpty = board.state.every((row) =>
-      row.every((pos) => pos === false)
-    );
-
-    expect(isStateEmpty).toBe(true);
+  test('Board has the correct width and height', () => {
+    expect(board.width).toBe(10);
+    expect(board.height).toBe(10)
   });
 
   test('Board has no ships', () => {
     expect(board.ships.length).toBe(0);
   });
 
-  test('Board has the correct width and height', () => {
-    expect(board.width).toBe(10);
-    expect(board.height).toBe(10)
+  test('Board has correct state', () => {
+    const isStateEmpty = board.state.every((row) =>
+      row.every((pos) => pos === false)
+    );
+
+    expect(isBoardStateEmpty(board)).toBe(true);
   });
 });
 
