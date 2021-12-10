@@ -2,9 +2,9 @@ import boardFactory from '../boardFactory';
 import shipFactory from '../shipFactory';
 
 const isBoardStateEmpty = (board) => {
-  for(let y = 0; y < board.height; y += 1) {
-    for(let x = 0; x < board.width; x += 1) {
-      const square = board.square_at({ x, y});
+  for (let y = 0; y < board.height; y += 1) {
+    for (let x = 0; x < board.width; x += 1) {
+      const square = board.square_at({ x, y });
       if (square) return false;
     }
   }
@@ -16,7 +16,7 @@ describe('Creating a new board', () => {
 
   test('Board has the correct width and height', () => {
     expect(board.width).toBe(10);
-    expect(board.height).toBe(10)
+    expect(board.height).toBe(10);
   });
 
   test('Board has no ships', () => {
@@ -122,8 +122,8 @@ describe('#receiveAttack send receive attack to ship', () => {
       orientation: [0, 1],
     });
     const board = boardFactory({ ships: [ship] });
-    const pos = [0 , 2]
-    
+    const pos = [0, 2];
+
     const spy = jest.spyOn(ship, 'receiveAttack');
     board.receiveAttack(pos);
     expect(spy).toHaveBeenCalledWith(pos);
@@ -139,7 +139,83 @@ describe('receiveAttack method throws error if pos is invalid', () => {
 
   test('throws error if pos has been attacked before', () => {
     const board = boardFactory();
-    board.receiveAttack([3 , 5]);
+    board.receiveAttack([3, 5]);
     expect(() => board.receiveAttack([3, 5])).toThrowError();
+  });
+});
+
+describe('#addShip adds a ship to board', () => {
+  test('Returns true if a ship is added', () => {
+    const board = boardFactory();
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 2,
+      orientation: [0, 1],
+    });
+    expect(board.addShip(ship)).toBe(true);
+  });
+
+  test('Adds the ship to board ships', () => {
+    const board = boardFactory();
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 2,
+      orientation: [0, 1],
+    });
+    board.addShip(ship);
+    expect(board.ships).toContain(ship);
+  });
+
+  test('Returns false if ship positions is overlapping', () => {
+    const ship1 = shipFactory({
+      startPos: [0, 0],
+      length: 2,
+      orientation: [0, 1],
+    });
+    const ship2 = shipFactory({
+      startPos: [0, 1],
+      length: 2,
+      orientation: [0, 1],
+    });
+    const board = boardFactory({ ships: [ship1] });
+    expect(board.addShip(ship2)).toBe(false);
+  });
+
+  test('Returns false if ship positions is out of bounds', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 12,
+      orientation: [0, 1],
+    });
+    const board = boardFactory();
+    expect(board.addShip(ship)).toBe(false);
+  });
+
+  test('Does not add ship to board if ship positions is overlapping', () => {
+    const ship1 = shipFactory({
+      startPos: [0, 0],
+      length: 2,
+      orientation: [0, 1],
+    });
+    const ship2 = shipFactory({
+      startPos: [0, 1],
+      length: 2,
+      orientation: [0, 1],
+    });
+    const board = boardFactory({ ships: [ship1] });
+    board.addShip(ship2);
+
+    expect(board.ships).not.toContain(ship2);
+  });
+
+  test('Does not add ship to board if ship positions is out of bounds', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 12,
+      orientation: [0, 1],
+    });
+    const board = boardFactory();
+    board.addShip(ship);
+    expect(board.ships).not.toContain(ship);
   });
 });
