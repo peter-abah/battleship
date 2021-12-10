@@ -6,8 +6,8 @@ const boardFactory = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
 } = {}) => {
-  const getAllShipsPositions = () =>
-    ships.reduce((positions, ship) => positions.concat(ship.positions), []);
+  const getAllShipsPositions = (ships_) =>
+    ships_.reduce((positions, ship) => positions.concat(ship.positions), []);
 
   const isShipsOverlapping = (positions) => {
     const checkedPositions = {};
@@ -19,14 +19,12 @@ const boardFactory = ({
     });
   };
 
-  const isPosInBounds = ([y, x]) => 
-    (x < width && y < height && x >= 0 && y >= 0)
+  const isPosInBounds = ([y, x]) => x < width && y < height && x >= 0 && y >= 0;
 
-  const isShipsOutOfBounds = (positions) =>
-    !positions.every(isPosInBounds);
+  const isShipsOutOfBounds = (positions) => !positions.every(isPosInBounds);
 
   const validateShips = () => {
-    const shipsPositions = getAllShipsPositions();
+    const shipsPositions = getAllShipsPositions(ships);
     if (
       isShipsOutOfBounds(shipsPositions)
       || isShipsOverlapping(shipsPositions)
@@ -42,18 +40,31 @@ const boardFactory = ({
   validateShips();
   const state = initState();
 
-  const square_at = ({x, y}) => state[y][x];
+  const square_at = ({ x, y }) => state[y][x];
 
   const isAttackValid = ([y, x]) => isPosInBounds([y, x]) && !state[y][x];
 
   const receiveAttack = ([y, x]) => {
     if (!isAttackValid([y, x])) throw new Error('Invalid Attack');
 
-    state[y][x] = true
+    state[y][x] = true;
     const attackedShip = ships.filter((ship) => ship.isPos([y, x]))[0];
     if (!attackedShip) return false;
 
     attackedShip.receiveAttack([y, x]);
+    return true;
+  };
+
+  const addShip = (ship) => {
+    const updatedShipPositions = getAllShipsPositions([...ships, ship]);
+    if (
+      isShipsOverlapping(updatedShipPositions)
+      || isShipsOutOfBounds(updatedShipPositions)
+    ) {
+      return false;
+    }
+
+    ships.push(ship);
     return true;
   };
 
@@ -64,6 +75,7 @@ const boardFactory = ({
     height,
     square_at,
     receiveAttack,
+    addShip,
   };
 
   return self;
