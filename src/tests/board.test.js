@@ -86,3 +86,45 @@ describe('#square_at returns the state of the square if it is attacked', () => {
     expect(board.square_at({ x: 0, y: 0 })).toBe(false);
   });
 });
+
+describe('#receiveAttack send receive attack to ship', () => {
+  test('Returns true if ship is attacked', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 3,
+      orientation: [0, 1],
+    });
+    const board = boardFactory({ ships: [ship] });
+    expect(board.receiveAttack([0, 2])).toBe(true);
+  });
+
+  test('Returns false if ship is not attacked', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 3,
+      orientation: [0, 1],
+    });
+    const board = boardFactory({ ships: [ship] });
+    expect(board.receiveAttack([1, 2])).toBe(false);
+  });
+
+  test('Records the attack in state', () => {
+    const board = boardFactory();
+    board.receiveAttack([1, 2]);
+
+    expect(board.square_at({ x: 1, y: 2 })).toBe(true);
+  });
+
+  test('Send receiveAttack message to ship when attacked', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 3,
+      orientation: [0, 1],
+    });
+    const board = boardFactory({ ships: [ship] });
+    board.receiveAttack([0, 2]);
+
+    const spy = jest.spyOn(ship, 'receiveAttack');
+    expect(spy).toHaveBeenCalledWith([0, 2]);
+  });
+});
