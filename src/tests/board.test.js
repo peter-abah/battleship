@@ -6,7 +6,7 @@ describe('Creating a new board', () => {
 
   test('Board has correct state', () => {
     const isStateEmpty = board.state.every((row) =>
-      row.every((pos) => pos === 0)
+      row.every((pos) => pos === false)
     );
 
     expect(isStateEmpty).toBe(true);
