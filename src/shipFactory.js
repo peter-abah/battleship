@@ -31,7 +31,6 @@ const shipFactory = ({ startPos, length, orientation }) => {
     receiveAttack,
     isPos,
   };
-  Object.freeze(self);
 
   return self;
 };

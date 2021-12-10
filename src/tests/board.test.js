@@ -112,7 +112,7 @@ describe('#receiveAttack send receive attack to ship', () => {
     const board = boardFactory();
     board.receiveAttack([1, 2]);
 
-    expect(board.square_at({ x: 1, y: 2 })).toBe(true);
+    expect(board.square_at({ x: 2, y: 1 })).toBe(true);
   });
 
   test('Send receiveAttack message to ship when attacked', () => {
@@ -122,9 +122,11 @@ describe('#receiveAttack send receive attack to ship', () => {
       orientation: [0, 1],
     });
     const board = boardFactory({ ships: [ship] });
-    board.receiveAttack([0, 2]);
-
+    const pos = [0 , 2]
+    
     const spy = jest.spyOn(ship, 'receiveAttack');
-    expect(spy).toHaveBeenCalledWith([0, 2]);
+    board.receiveAttack(pos);
+    expect(spy).toHaveBeenCalledWith(pos);
+    spy.mockRestore();
   });
 });

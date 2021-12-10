@@ -94,7 +94,7 @@ describe('#isPos method indicates if a pos is part of ship positions', () => {
   });
 
   test('Returns false if pos is not part of ship positions', () => {
-    expect(ship.isPos([2, 3])).toBe(false``)
+    expect(ship.isPos([2, 3])).toBe(false)
   });
 });
 

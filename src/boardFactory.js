@@ -41,12 +41,22 @@ const boardFactory = ({
 
   const square_at = ({x, y}) => state[y][x];
 
+  const receiveAttack = ([y, x]) => {
+    state[y][x] = true
+    const attackedShip = ships.filter((ship) => ship.isPos([y, x]))[0];
+    if (!attackedShip) return false;
+
+    attackedShip.receiveAttack([y, x]);
+    return true;
+  };
+
   const self = {
     state,
     ships,
     width,
     height,
     square_at,
+    receiveAttack,
   };
 
   return self;
