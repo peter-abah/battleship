@@ -8,7 +8,7 @@ describe('Creating a player with ships', () => {
       length: 2,
       orientation: [0, 1],
     });
-    const ship1 = shipFactory({
+    const ship2 = shipFactory({
       startPos: [4, 0],
       length: 2,
       orientation: [0, 1],
