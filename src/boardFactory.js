@@ -44,6 +44,8 @@ const boardFactory = ({
   const self = {
     state,
     ships,
+    width,
+    height,
     square_at,
   };
 

@@ -15,6 +15,11 @@ describe('Creating a new board', () => {
   test('Board has no ships', () => {
     expect(board.ships.length).toBe(0);
   });
+
+  test('Board has the correct width and height', () => {
+    expect(board.width).toBe(10);
+    expect(board.height).toBe(10)
+  });
 });
 
 describe('Creating a new board with ships', () => {
