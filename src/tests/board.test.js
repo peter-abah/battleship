@@ -64,3 +64,10 @@ describe('Validates ship positions are not outside board', () => {
     expect(() => boardFactory({ ships: [ship1] })).toThrowError();
   });
 });
+
+describe('#square_at returns the state of the square if it is attacked', () => {
+  test('Returns the correct square state', () => {
+    const board = boardFactory();
+    expect(board.square_at({ x: 0, y: 0 })).toBe(false);
+  });
+});
