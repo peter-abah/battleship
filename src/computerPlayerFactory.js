@@ -52,6 +52,16 @@ const computerPlayerFactory = () => {
   const board = generateBoard();
   const self = { board };
 
+  const makeMove = (_, { player, board: opponentBoard }) => {
+    if (player !== self) return;
+
+    const positions = genAllBoardPositions(opponentBoard);
+    const pos = randomElement(positions);
+    PubSub.publish(eventTypes.PLAYER_MOVE, { player: self, pos });
+  };
+
+  PubSub.subscribe(eventTypes.NEXT_TURN, makeMove);
+
   return self;
 };
 

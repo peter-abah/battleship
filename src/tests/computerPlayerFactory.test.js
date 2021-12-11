@@ -1,5 +1,6 @@
 import PubSub from 'pubsub-js';
 import eventTypes from '../eventTypes';
+import boardFactory from '../boardFactory';
 import computerPlayerFactory from '../computerPlayerFactory';
 
 describe('Creating a new computer player', () => {
@@ -42,6 +43,7 @@ describe('Creating a new computer player', () => {
 describe('Sends a PLAYER_MOVE in response to NEXT_TURN event', () => {
   test('Sends PLAYER_MOVE event', (done) => {
     const player = computerPlayerFactory();
+    const board = boardFactory();
 
     const token = PubSub.subscribe(eventTypes.PLAYER_MOVE, (_, data) => {
       try {
@@ -54,16 +56,17 @@ describe('Sends a PLAYER_MOVE in response to NEXT_TURN event', () => {
       }
     });
 
-    PubSub.publish(eventTypes.NEXT_TURN, { player });
+    PubSub.publish(eventTypes.NEXT_TURN, { player, board });
   });
 
   test('Sends PLAYER_MOVE event with a pos', (done) => {
     const player = computerPlayerFactory();
+    const board = boardFactory();
 
-    const token = PubSub.subscribe(eventTypes.PLAYER_MOVE, (_, {pos}) => {
+    const token = PubSub.subscribe(eventTypes.PLAYER_MOVE, (_, { pos }) => {
       try {
-        expect(pos[0]).toBeInstanceOf(Number);
-        expect(pos[1]).toBeInstanceOf(Number);
+        expect(typeof pos[0]).toBe('number');
+        expect(typeof pos[1]).toBe('number');
         done();
       } catch (error) {
         done(error);
@@ -72,6 +75,6 @@ describe('Sends a PLAYER_MOVE in response to NEXT_TURN event', () => {
       }
     });
 
-    PubSub.publishSync(eventTypes.NEXT_TURN, { player });
+    PubSub.publishSync(eventTypes.NEXT_TURN, { player, board });
   });
 });
