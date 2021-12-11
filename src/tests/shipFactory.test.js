@@ -161,3 +161,33 @@ describe('#receiveAttack method adds the pos to attackedPositions if it was suce
     expect(shipContainsPos).toBe(false);
   });
 });
+
+describe('#isSunk method returns if all it positions has been attacked', () => {
+  test('Returns false if it has not been sunk', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 3,
+      orientation: [0, 1],
+    });
+
+    // Attacks only one of it pos
+    ship.receiveAttack([0, 0]);
+
+    expect(ship.isSunk()).toBe(false);
+  });
+
+  test('Returns true if it has been sunk', () => {
+    const ship = shipFactory({
+      startPos: [0, 0],
+      length: 3,
+      orientation: [0, 1],
+    });
+
+    // Attacks the ship
+    ship.receiveAttack([0, 0]);
+    ship.receiveAttack([0, 1]);
+    ship.receiveAttack([0, 2]);
+
+    expect(ship.isSunk()).toBe(true);
+  });
+});
