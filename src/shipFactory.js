@@ -1,4 +1,8 @@
-const shipFactory = ({ startPos, length, orientation }) => {
+const shipFactory = ({
+  startPos = [0, 0],
+  length = 1,
+  orientation = [0, 1],
+} = {}) => {
   const initPositions = () => {
     const positions = [startPos];
     for (let i = 1; i < length; i += 1) {
