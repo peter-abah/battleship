@@ -38,8 +38,6 @@ const boardFactory = ({
 
   const attackedPositions = [];
 
-  const square_at = ({ x, y }) => state[y][x];
-
   const isPosBeenAttacked = ([y, x]) =>
     attackedPositions.some((pos) => pos[0] === y && pos[1] === x);
 
@@ -74,7 +72,6 @@ const boardFactory = ({
     ships,
     width,
     height,
-    square_at,
     receiveAttack,
     attackedPositions,
     addShip,

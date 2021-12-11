@@ -66,13 +66,6 @@ describe('Validates ship positions are not outside board', () => {
   });
 });
 
-describe.skip('#square_at returns the state of the square if it is attacked', () => {
-  test('Returns the correct square state', () => {
-    const board = boardFactory();
-    expect(board.square_at({ x: 0, y: 0 })).toBe(false);
-  });
-});
-
 describe('#receiveAttack send receive attack to ship', () => {
   test('Returns true if ship is attacked', () => {
     const ship = shipFactory({
