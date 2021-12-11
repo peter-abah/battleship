@@ -199,3 +199,26 @@ describe('#addShip adds a ship to board', () => {
     expect(board.ships).not.toContain(ship);
   });
 });
+
+describe('#sunkShips method returns ships that have been sunk', () => {
+  test('Returns empty array when no ships have been sunk', () => {
+    const board = boardFactory();
+    expect(board.sunkShips()).toEqual([]);
+  });
+
+  test('Returns empty array when ship is attacked but not sunk', () => {
+    const ship1 = shipFactory({ length: 2 });
+    const board = boardFactory({ ships: [ship1] });
+
+    board.receiveAttack([0, 0]);
+    expect(board.sunkShips()).toEqual([]);
+  });
+
+  test('Returns the ship(s) that have been sunk', () => {
+    const ship = shipFactory();
+    const board = boardFactory({ ships: [ship] });
+
+    board.receiveAttack([0, 0]);
+    expect(board.sunkShips()).toContain(ship);
+  });
+});
