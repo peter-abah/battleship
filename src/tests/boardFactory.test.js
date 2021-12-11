@@ -1,16 +1,6 @@
 import boardFactory from '../boardFactory';
 import shipFactory from '../shipFactory';
 
-const isBoardStateEmpty = (board) => {
-  for (let y = 0; y < board.height; y += 1) {
-    for (let x = 0; x < board.width; x += 1) {
-      const square = board.square_at({ x, y });
-      if (square) return false;
-    }
-  }
-  return true;
-};
-
 describe('Creating a new board', () => {
   const board = boardFactory();
 
@@ -23,12 +13,8 @@ describe('Creating a new board', () => {
     expect(board.ships.length).toBe(0);
   });
 
-  test('Board has correct state', () => {
-    const isStateEmpty = board.state.every((row) =>
-      row.every((pos) => pos === false)
-    );
-
-    expect(isBoardStateEmpty(board)).toBe(true);
+  test('Board has empty attackedPos', () => {
+    expect(board.attackedPos.length).toBe(0);
   });
 });
 
@@ -108,11 +94,12 @@ describe('#receiveAttack send receive attack to ship', () => {
     expect(board.receiveAttack([1, 2])).toBe(false);
   });
 
-  test('Records the attack in state', () => {
+  test('Records the attack in attackedPos', () => {
     const board = boardFactory();
-    board.receiveAttack([1, 2]);
+    const pos = [1, 2];
+    board.receiveAttack(pos);
 
-    expect(board.square_at({ x: 2, y: 1 })).toBe(true);
+    expect(board.attackedPos).toContainEqual([1, 2]);
   });
 
   test('Send receiveAttack message to ship when attacked', () => {

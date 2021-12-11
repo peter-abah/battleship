@@ -34,20 +34,22 @@ const boardFactory = ({
     return true;
   };
 
-  const initState = () =>
-    new Array(height).fill().map(() => new Array(width).fill(false));
-
   validateShips();
-  const state = initState();
+
+  const attackedPos = [];
 
   const square_at = ({ x, y }) => state[y][x];
 
-  const isAttackValid = ([y, x]) => isPosInBounds([y, x]) && !state[y][x];
+  const isPosBeenAttacked = ([y, x]) => 
+    attackedPos.some((pos) => pos[0] === y && pos[1] === x);
+
+  const isAttackValid = ([y, x]) => 
+    isPosInBounds([y, x]) && !isPosBeenAttacked([y, x]);
 
   const receiveAttack = ([y, x]) => {
     if (!isAttackValid([y, x])) throw new Error('Invalid Attack');
 
-    state[y][x] = true;
+    attackedPos.push([y, x]);
     const attackedShip = ships.filter((ship) => ship.isPos([y, x]))[0];
     if (!attackedShip) return false;
 
@@ -69,12 +71,12 @@ const boardFactory = ({
   };
 
   const self = {
-    state,
     ships,
     width,
     height,
     square_at,
     receiveAttack,
+    attackedPos,
     addShip,
   };
 
