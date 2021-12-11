@@ -20,6 +20,22 @@ describe('Creating a new ship', () => {
   });
 });
 
+describe('Creating a new ship with no arguments', () => {
+  const ship = shipFactory();
+
+  test('The ship has the default start pos', () => {
+    expect(ship.startPos).toEqual([0, 0]);
+  });
+
+  test('The ship has the default length', () => {
+    expect(ship.length).toEqual(1);
+  });
+
+  test('The ship has the default orientation', () => {
+    expect(ship.orientation).toEqual([0, 1]);
+  });
+});
+
 describe('#positions method returns the correct positions of ship', () => {
   test('Returns the correct positions of the ship when orientation is down vertical', () => {
     const ship = shipFactory({
