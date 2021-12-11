@@ -16,7 +16,7 @@ const playerFactory = ({ ships = [] } = {}) => {
   const makeMove = (_, { pos }) => {
     if (!isPlayerTurn) return;
 
-    PubSub.publish(eventTypes.PLAYER_MOVE, { pos });
+    PubSub.publish(eventTypes.PLAYER_MOVE, { player: self, pos });
     isPlayerTurn = false;
   };
 
