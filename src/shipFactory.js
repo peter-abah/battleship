@@ -26,6 +26,8 @@ const shipFactory = ({
     return true;
   };
 
+  const isSunk = () => attackedPositions.length === positions.length;
+
   const self = {
     startPos,
     length,
@@ -34,6 +36,7 @@ const shipFactory = ({
     attackedPositions,
     receiveAttack,
     isPos,
+    isSunk,
   };
 
   return self;
