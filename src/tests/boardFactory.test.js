@@ -222,3 +222,21 @@ describe('#sunkShips method returns ships that have been sunk', () => {
     expect(board.sunkShips()).toContain(ship);
   });
 });
+
+describe('#isAttackValid returns if a an attack is valid', () => {
+  const board = boardFactory();
+
+  test('returns false if attack is out of bounds', () => {
+    expect(board.isAttackValid([10, 10])).toBe(false);
+  });
+
+  test('Returns true if attack is in bounds', () => {
+    expect(board.isAttackValid([5, 5])).toBe(true);
+  });
+
+  test('Returns false is the pos has been attacked', () => {
+    board = boardFactory();
+    board.receiveAttack([0, 0]);
+    expect(board.isAttackValid([0, 0])).toBe(false);
+  });
+});
