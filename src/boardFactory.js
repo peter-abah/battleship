@@ -9,6 +9,16 @@ const boardFactory = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
 } = {}) => {
+  const genAllBoardIndices = () => {
+    const result = [];
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        result.push([y, x]);
+      }
+    }
+    return result;
+  };
+
   const getAllShipsPositions = (boardShips) =>
     boardShips.reduce(
       (positions, ship) => positions.concat(ship.positions),
@@ -83,6 +93,8 @@ const boardFactory = ({
 
   const isAllShipsSunk = () => sunkShips().length === ships.length;
 
+  const allIndices = Object.freeze(genAllBoardIndices());
+
   const self = {
     ships,
     width,
@@ -94,6 +106,7 @@ const boardFactory = ({
     isAllShipsSunk,
     addShip,
     canShipBeAdded,
+    allIndices,
   };
 
   return self;
