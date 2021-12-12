@@ -240,3 +240,33 @@ describe('#isAttackValid returns if a an attack is valid', () => {
     expect(board.isAttackValid([0, 0])).toBe(false);
   });
 });
+
+describe('#isAllShipSunk method returns if all ships have been sunk', () => {
+  test('Returns false if no ship is sunk', () => {
+    const ship1 = shipFactory({ startPos: [0, 1] });
+    const ship2 = shipFactory({ startPos: [0, 2] });
+    const board = boardFactory({ ships: [ship1, ship2] });
+
+    expect(board.isAllShipsSunk()).toBe(false);
+  });
+
+  test('Returns false if one ship is sunk', () => {
+    const ship1 = shipFactory({ startPos: [0, 1] });
+    const ship2 = shipFactory({ startPos: [0, 2] });
+    const board = boardFactory({ ships: [ship1, ship2] });
+
+    board.receiveAttack([0, 2]);
+    expect(board.isAllShipsSunk()).toBe(false);
+  });
+
+  test('Returns true if all ships are sunk', () => {
+    const ship1 = shipFactory({ startPos: [0, 1] });
+    const ship2 = shipFactory({ startPos: [0, 2] });
+    const board = boardFactory({ ships: [ship1, ship2] });
+
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([0, 2]);
+
+    expect(board.isAllShipsSunk()).toBe(true);
+  });
+});
