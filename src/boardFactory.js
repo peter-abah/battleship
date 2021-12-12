@@ -99,14 +99,14 @@ const boardFactory = ({
     ships,
     width,
     height,
+    allIndices,
+    attackedPositions,
     isAttackValid,
     receiveAttack,
-    attackedPositions,
     sunkShips,
     isAllShipsSunk,
     addShip,
     canShipBeAdded,
-    allIndices,
   };
 
   return self;
@@ -121,16 +121,6 @@ const randomBattleShipBoard = () => {
   ];
 
   const shipLengths = [5, 4, 3, 3, 2];
-
-  const genAllBoardPositions = (board) => {
-    const result = [];
-    for (let y = 0; y < board.height; y += 1) {
-      for (let x = 0; x < board.width; x += 1) {
-        result.push([y, x]);
-      }
-    }
-    return result;
-  };
 
   const getShipForPos = (startPos, length) => {
     const ships = orientations.map((orientation) =>
@@ -158,7 +148,7 @@ const randomBattleShipBoard = () => {
   };
 
   const board = boardFactory();
-  let boardPositions = genAllBoardPositions(board);
+  let boardPositions = board.allIndices.map(([y, x]) => [y, x]); // to deep copy the array
   addShips();
 
   return board;
