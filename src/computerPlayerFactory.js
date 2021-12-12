@@ -1,7 +1,7 @@
 import PubSub from 'pubsub-js';
 import eventTypes from './eventTypes';
 import { randomElement } from './helperFuncs';
-import { randomBattleShipBoard } from './boardFactory';
+import randomBattleShipBoard from './randomBattleShipBoard';
 
 const computerPlayerFactory = () => {
   const board = randomBattleShipBoard();
