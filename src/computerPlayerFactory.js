@@ -1,8 +1,7 @@
 import PubSub from 'pubsub-js';
 import eventTypes from './eventTypes';
 import { randomElement } from './helperFuncs';
-import shipFactory from './shipFactory';
-import boardFactory from './boardFactory';
+import { randomBattleShipBoard } from './boardFactory';
 
 const computerPlayerFactory = () => {
   const genAllBoardPositions = (board) => {
@@ -15,41 +14,7 @@ const computerPlayerFactory = () => {
     return result;
   };
 
-  // TODO REFACTOR THIS METHOD
-  const generateBoard = () => {
-    const board = boardFactory();
-    let positions = genAllBoardPositions(board);
-    const orientations = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
-    ];
-    const shipLengths = [5, 4, 3, 3, 2];
-
-    shipLengths.forEach((length) => {
-      let isShipCreated = false;
-
-      while (!isShipCreated) {
-        const randomPos = randomElement(positions);
-
-        isShipCreated = orientations.some((orientation) => {
-          const ship = shipFactory({
-            startPos: randomPos,
-            length,
-            orientation,
-          });
-          const isShipAdded = board.addShip(ship);
-          return isShipAdded;
-        });
-        positions = positions.filter((elem) => elem !== randomPos);
-      }
-    });
-
-    return board;
-  };
-
-  const board = generateBoard();
+  const board = randomBattleShipBoard();
   const self = { board };
 
   const makeMove = (_, { player, board: opponentBoard }) => {
