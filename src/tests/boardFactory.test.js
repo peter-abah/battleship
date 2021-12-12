@@ -300,3 +300,27 @@ describe('#isAllShipSunk method returns if all ships have been sunk', () => {
     expect(board.isAllShipsSunk()).toBe(true);
   });
 });
+
+describe('#canShipBeAdded returns if ship can be added to board', () => {
+  test('Returns true if ship can be added', () => {
+    const board = boardFactory();
+    const ship = shipFactory();
+
+    expect(board.canShipBeAdded(ship)).toBe(true);
+  });
+
+  test('Returns false if ship position is outside board', () => {
+    const board = boardFactory();
+    const ship = shipFactory([10, 10]);
+
+    expect(board.canShipBeAdded(ship)).toBe(false);
+  });
+
+  test('Returns false if ship position overlaps a ship in the board', () => {
+    const ship1 = shipFactory();
+    const ship2 = shipFactory();
+    const board = boardFactory({ ships: [ship1] });
+
+    expect(board.canShipBeAdded(ship2)).toBe(false);
+  });
+});
