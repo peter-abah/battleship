@@ -235,7 +235,7 @@ describe('#isAttackValid returns if a an attack is valid', () => {
   });
 
   test('Returns false is the pos has been attacked', () => {
-    board = boardFactory();
+    const board = boardFactory();
     board.receiveAttack([0, 0]);
     expect(board.isAttackValid([0, 0])).toBe(false);
   });

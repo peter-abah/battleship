@@ -74,6 +74,7 @@ const boardFactory = ({
     ships,
     width,
     height,
+    isAttackValid,
     receiveAttack,
     attackedPositions,
     sunkShips,
