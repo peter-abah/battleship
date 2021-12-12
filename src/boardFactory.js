@@ -70,6 +70,8 @@ const boardFactory = ({
 
   const sunkShips = () => ships.filter((ship) => ship.isSunk());
 
+  const isAllShipsSunk = () => sunkShips().length === ships.length;
+
   const self = {
     ships,
     width,
@@ -78,6 +80,7 @@ const boardFactory = ({
     receiveAttack,
     attackedPositions,
     sunkShips,
+    isAllShipsSunk,
     addShip,
   };
 
