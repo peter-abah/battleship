@@ -303,3 +303,20 @@ describe('#canShipBeAdded returns if ship can be added to board', () => {
     expect(board.canShipBeAdded(ship2)).toBe(false);
   });
 });
+
+describe('#forOpponent returns board without important properties', () => {
+  const board = boardFactory;
+  const boardForOpponent = board.forOpponent();
+
+  test('It does not have ships', () => {
+    expect(boardForOpponent.ships).toBe(undefined);
+  });
+
+  test('It does not have receiveAttack method', () => {
+    expect(boardForOpponent.receiveAttack).toBe(undefined);
+  });
+
+  test('It does not have addShip method', () => {
+    expect(boardForOpponent.addShip).toBe(undefined);
+  });
+});
