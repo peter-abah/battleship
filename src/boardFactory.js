@@ -10,7 +10,10 @@ const boardFactory = ({
   height = DEFAULT_HEIGHT,
 } = {}) => {
   const getAllShipsPositions = (boardShips) =>
-    boardShips.reduce((positions, ship) => positions.concat(ship.positions), []);
+    boardShips.reduce(
+      (positions, ship) => positions.concat(ship.positions),
+      []
+    );
 
   const isShipsOverlapping = (positions) => {
     const checkedPositions = {};
@@ -28,7 +31,9 @@ const boardFactory = ({
 
   const isShipsValid = (boardShips) => {
     const shipsPositions = getAllShipsPositions(boardShips);
-    return !(isShipsOutOfBounds(shipsPositions) || isShipsOverlapping(shipsPositions));
+    return !(
+      isShipsOutOfBounds(shipsPositions) || isShipsOverlapping(shipsPositions)
+    );
   };
 
   const canShipBeAdded = (ship) => {
@@ -114,31 +119,28 @@ const randomBattleShipBoard = () => {
     return result;
   };
 
-  const addShipToBoard = (length) => {
+  const getShipForPos = (startPos, length) => {
+    const ships = orientations.map((orientation) =>
+      shipFactory({ startPos, length, orientation })
+    );
+    return ships.filter((ship) => board.canShipBeAdded(ship))[0];
+  };
+
+  const tryToAddShip = (length) => {
     const randomPos = randomElement(boardPositions);
+    boardPositions = boardPositions.filter((elem) => elem !== randomPos);
 
-    const isShipCreated = orientations.some((orientation) => {
-      const ship = shipFactory({
-        startPos: randomPos,
-        length,
-        orientation,
-      });
-      const isShipAdded = board.addShip(ship);
-      return isShipAdded;
-    });
+    const ship = getShipForPos(randomPos, length);
+    if(!ship) return false;
 
-    const positions = boardPositions.filter((elem) => elem !== randomPos);
-
-    return { positions, isShipCreated };
+    board.addShip(ship);
+    return true;
   };
 
   const addShips = () => {
     shipLengths.forEach((length) => {
-      let isShipCreated = false;
-
-      while (!isShipCreated) {
-        ({ isShipCreated, positions: boardPositions } = addShipToBoard(length));
-      }
+      let isShipAdded = false;
+      while (!isShipAdded) isShipAdded = tryToAddShip(length);
     });
   };
 
