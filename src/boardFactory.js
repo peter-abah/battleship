@@ -9,8 +9,8 @@ const boardFactory = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
 } = {}) => {
-  const getAllShipsPositions = (ships_) =>
-    ships_.reduce((positions, ship) => positions.concat(ship.positions), []);
+  const getAllShipsPositions = (boardShips) =>
+    boardShips.reduce((positions, ship) => positions.concat(ship.positions), []);
 
   const isShipsOverlapping = (positions) => {
     const checkedPositions = {};
@@ -26,15 +26,18 @@ const boardFactory = ({
 
   const isShipsOutOfBounds = (positions) => !positions.every(isPosInBounds);
 
+  const isShipsValid = (boardShips) => {
+    const shipsPositions = getAllShipsPositions(boardShips);
+    return !(isShipsOutOfBounds(shipsPositions) || isShipsOverlapping(shipsPositions));
+  };
+
+  const canShipBeAdded = (ship) => {
+    const boardShips = [...ships, ship];
+    return isShipsValid(boardShips);
+  };
+
   const validateShips = () => {
-    const shipsPositions = getAllShipsPositions(ships);
-    if (
-      isShipsOutOfBounds(shipsPositions) ||
-      isShipsOverlapping(shipsPositions)
-    ) {
-      throw new Error('Invalid ship placements');
-    }
-    return true;
+    if (!isShipsValid(ships)) throw new Error('Invalid ship placements');
   };
 
   validateShips();
@@ -85,6 +88,7 @@ const boardFactory = ({
     sunkShips,
     isAllShipsSunk,
     addShip,
+    canShipBeAdded,
   };
 
   return self;

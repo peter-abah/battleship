@@ -311,7 +311,7 @@ describe('#canShipBeAdded returns if ship can be added to board', () => {
 
   test('Returns false if ship position is outside board', () => {
     const board = boardFactory();
-    const ship = shipFactory([10, 10]);
+    const ship = shipFactory({ startPos: [10, 10] });
 
     expect(board.canShipBeAdded(ship)).toBe(false);
   });
