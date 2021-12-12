@@ -46,6 +46,15 @@ describe('Creating a new board', () => {
   test('Board has empty attackedPositionsitions', () => {
     expect(board.attackedPositions.length).toBe(0);
   });
+
+  test('Board has the correct indices', () => {
+    const boardIndices = board.allIndices.map((index) =>
+      Number(index.toString().replace(/,/g, ''))
+    );
+
+    const expectedIndices = [...Array(100).keys()];
+    expect(boardIndices).toEqual(expectedIndices);
+  });
 });
 
 describe('Creating a new board with ships', () => {
