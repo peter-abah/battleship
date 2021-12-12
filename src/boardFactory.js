@@ -95,6 +95,12 @@ const boardFactory = ({
 
   const allIndices = Object.freeze(genAllBoardIndices());
 
+  const forOpponent = () => {
+    // eslint-disable-next-line no-shadow
+    const { ships, receiveAttack, addShip, ...rest } = self;
+    return rest;
+  };
+
   const self = {
     ships,
     width,
@@ -107,6 +113,7 @@ const boardFactory = ({
     isAllShipsSunk,
     addShip,
     canShipBeAdded,
+    forOpponent,
   };
 
   return self;

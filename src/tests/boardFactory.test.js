@@ -305,7 +305,7 @@ describe('#canShipBeAdded returns if ship can be added to board', () => {
 });
 
 describe('#forOpponent returns board without important properties', () => {
-  const board = boardFactory;
+  const board = boardFactory();
   const boardForOpponent = board.forOpponent();
 
   test('It does not have ships', () => {
