@@ -320,3 +320,27 @@ describe('#forOpponent returns board without important properties', () => {
     expect(boardForOpponent.addShip).toBe(undefined);
   });
 });
+
+describe('#isAllPositionsAttacked returns if all positions has been attacked', () => {
+  test('Returns false for new board', () => {
+    const board = boardFactory();
+    expect(board.isAllPositionsAttacked()).toBe(false);
+  });
+
+  test('Returns false for board with few positons attacked', () => {
+    const board = boardFactory();
+
+    // Attack 10 board positions
+    board.allIndices.slice(0, 10).forEach((pos) => board.receiveAttack(pos));
+    expect(board.isAllPositionsAttacked()).toBe(false)
+  });
+
+  test('Returns true if all positions have been attacked', () => {
+    const board = boardFactory();
+
+    // Attack all board positions
+    board.allIndices.forEach((pos) => board.receiveAttack(pos));
+    expect(board.isAllPositionsAttacked()).toBe(true);
+  });
+});
+
