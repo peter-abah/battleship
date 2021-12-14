@@ -77,4 +77,25 @@ describe('Sends a PLAYER_MOVE in response to NEXT_TURN event', () => {
 
     PubSub.publishSync(eventTypes.NEXT_TURN, { player, board });
   });
+
+  test('Sends PLAYER_MOVE event with valid a pos', (done) => {
+    const player = computerPlayerFactory();
+    const board = boardFactory();
+
+    // attacks all board postions except two
+    board.allIndices.slice(2).forEach((pos) => board.receiveAttack(pos));
+
+    const token = PubSub.subscribe(eventTypes.PLAYER_MOVE, (_, { pos }) => {
+      try {
+        expect(board.attackedPositions).not.toContainEqual(pos);
+        done();
+      } catch (error) {
+        done(error);
+      } finally {
+        PubSub.unsubscribe(token);
+      }
+    });
+
+    PubSub.publishSync(eventTypes.NEXT_TURN, { player, board });
+  });
 });
