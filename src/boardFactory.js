@@ -93,6 +93,8 @@ const boardFactory = ({
 
   const isAllShipsSunk = () => sunkShips().length === ships.length;
 
+  const isAllPositionsAttacked = () => attackedPositions.length === allIndices.length;
+
   const allIndices = Object.freeze(genAllBoardIndices());
 
   const forOpponent = () => {
@@ -109,6 +111,7 @@ const boardFactory = ({
     attackedPositions,
     isAttackValid,
     receiveAttack,
+    isAllPositionsAttacked,
     sunkShips,
     isAllShipsSunk,
     addShip,
