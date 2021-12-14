@@ -7,11 +7,21 @@ const computerPlayerFactory = () => {
   const board = randomBattleShipBoard();
   const self = { board };
 
+  const randomAttack = (opponentBoard) => {
+    const positions = opponentBoard.allIndices.filter(
+      ([y, x]) =>
+        !opponentBoard.attackedPositions.some(
+          (pos) => pos[0] === y && pos[1] === x
+        )
+    );
+
+    return randomElement(positions);
+  };
+
   const makeMove = (_, { player, board: opponentBoard }) => {
     if (player !== self) return;
 
-    const positions = opponentBoard.allIndices;
-    const pos = randomElement(positions);
+    const pos = randomAttack(opponentBoard);
     PubSub.publish(eventTypes.PLAYER_MOVE, { player: self, pos });
   };
 
