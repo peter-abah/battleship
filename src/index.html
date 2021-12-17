@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BattleShip</title>
+
+  <style>
+    .board {
+      width: 400px;
+      height: 400px;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+    }
+
+    .board__cell {
+      border: 1px solid maroon;
+    }
+
+    .ship {
+      width: 2rem;
+      height: 1.5rem;
+      margin: 1rem;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BattleShip</h1>
+  </header>
+
+  <section id="start">
+    <div id="board-wrapper"></div>
+
+    <div>
+      <div id="ships-wrapper"></div>
+      <button id="change-orientation">Change Ship Orientation</button>
+    </div>
+
+    <button id="start" type="button">Start</button>
+  </section>
+</body>
+</html>
