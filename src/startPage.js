@@ -16,8 +16,8 @@ const createDOMShips = (ships) => {
     2: 'destroyer',
   };
 
-  ships.map((ship) => {
-    const shipDOM = document.createElement('div');
+  return ships.map((ship) => {
+    const shipDOM = document.createElement('button');
     const shipClassName = shipNames[ship.length];
     shipDOM.classList.add('ship');
     shipDOM.classList.add(shipClassName);
@@ -31,16 +31,15 @@ const startPage = () => {
   const addShip = (event) => {
     if (shipLength === null) return;
 
-    const selectedShip = shipsWrapper.querySelector('ship--selected');
-
-    let startPos = event.currentTarget.dataset.pos;
+    const selectedShip = document.querySelector('.ship--selected');
+    let startPos = event.target.dataset.pos;
     startPos = startPos.split('').map((e) => Number(e));
     const ship = shipFactory({ startPos, orientation, length: shipLength });
 
-    if (initBoard.canAddShip(ship)) {
+    if (initBoard.canShipBeAdded(ship)) {
       initBoard.addShip(ship);
       selectedShip.remove();
-      PubSub.publish(eventTypes.UPDATE_INIT_BOARD);
+      PubSub.publish(eventTypes.UPDATE_BOARD, dom.board);
     }
 
     shipLength = null;
@@ -69,8 +68,7 @@ const startPage = () => {
   };
 
   const addEventListeners = () => {
-    board.addEventListener('click', addShip);
-    dom.board.cells.forEach((cell) => cell.addEventListener('click', addShip));
+    dom.board.addEventListener('click', addShip);
     dom.ships.forEach((ship) => ship.addEventListener('click', selectShip));
     dom.startBtn.addEventListener('click', startGame);
     dom.changeOrientationBtn.addEventListener('click', changeOrientation);
@@ -78,10 +76,10 @@ const startPage = () => {
 
   const addBoardAndShipsToDom = () => {
     dom.boardWrapper.appendChild(dom.board);
-    dom.ships.forEach((ship) => dom.shipWrapper.appendChild(ship));
+    dom.ships.forEach((ship) => dom.shipsWrapper.appendChild(ship));
   };
 
-  const orientation = HORIZONTAL_ORIENTATION;
+  let orientation = HORIZONTAL_ORIENTATION;
   let shipLength = null;
   const initBoard = boardFactory();
   const ships = createBattleships();
