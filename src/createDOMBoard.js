@@ -1,3 +1,6 @@
+import PubSub from 'pubsub-js';
+import eventTypes from './eventTypes';
+
 const isShipPos = (board, pos) => {
   board.ships.some((ship) => ship.isPos(pos));
 };
@@ -5,7 +8,7 @@ const isShipPos = (board, pos) => {
 const addClassNamesToCell = (cell, board, pos) => {
   cell.classList.add('board__cell');
 
-  if (board.isPosAtttacked(pos)) {
+  if (board.hasPosBeenAttacked(pos)) {
     cell.classList.add('board__cell--attacked');
   }
 
@@ -15,17 +18,36 @@ const addClassNamesToCell = (cell, board, pos) => {
 };
 
 const createDOMBoard = (board) => {
+  const updateBoard = (_, data) => {
+    if (data !== boardDom) return;
+
+    board.attackedPositions.forEach(([y, x]) => {
+      const cellSelector = `[data ="${y}${x}"]`;
+      const cell = boardDom.querySelector(cellSelector);
+      cell.classList.add('board__cell--attacked');
+    });
+
+    const shipsPos = board.ships.reduce((acc, ship) => acc.concat(ship.positions), []);
+    shipsPos.forEach(([y, x]) => {
+      const cellSelector = `[data-pos="${y}${x}"]`;
+      const cell = boardDom.querySelector(cellSelector);
+      cell.classList.add('board__cell--ship');
+    });
+  };
+
   const boardDom = document.createElement('div');
   boardDom.className = 'board';
 
   board.allIndices.forEach(([y, x]) => {
-    const cell = document.createElement('div');
+    const cell = document.createElement('button');
+    cell.id = `cell${y}${x}`;
     addClassNamesToCell(cell, board, [y, x]);
     cell.dataset.pos = `${y}${x}`;
     boardDom.appendChild(cell);
   });
 
-  return board;
+  PubSub.subscribe(eventTypes.UPDATE_BOARD, updateBoard);
+  return boardDom;
 };
 
 export default createDOMBoard;
