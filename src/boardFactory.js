@@ -100,6 +100,7 @@ const boardFactory = ({
   const forOpponent = () => {
     // eslint-disable-next-line no-shadow
     const { ships, receiveAttack, addShip, ...rest } = self;
+    rest.ships = [];
     return rest;
   };
 
