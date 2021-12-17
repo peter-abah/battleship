@@ -59,11 +59,11 @@ const boardFactory = ({
 
   const attackedPositions = [];
 
-  const isPosBeenAttacked = ([y, x]) =>
+  const hasPosBeenAttacked = ([y, x]) =>
     attackedPositions.some((pos) => pos[0] === y && pos[1] === x);
 
   const isAttackValid = ([y, x]) =>
-    isPosInBounds([y, x]) && !isPosBeenAttacked([y, x]);
+    isPosInBounds([y, x]) && !hasPosBeenAttacked([y, x]);
 
   const receiveAttack = ([y, x]) => {
     if (!isAttackValid([y, x])) throw new Error('Invalid Attack');
@@ -112,6 +112,7 @@ const boardFactory = ({
     attackedPositions,
     isAttackValid,
     receiveAttack,
+    hasPosBeenAttacked,
     isAllPositionsAttacked,
     sunkShips,
     isAllShipsSunk,
