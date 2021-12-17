@@ -308,8 +308,8 @@ describe('#forOpponent returns board without important properties', () => {
   const board = boardFactory();
   const boardForOpponent = board.forOpponent();
 
-  test('It does not have ships', () => {
-    expect(boardForOpponent.ships).toBe(undefined);
+  test('ships property is empty', () => {
+    expect(boardForOpponent.ships.length).toBe(0);
   });
 
   test('It does not have receiveAttack method', () => {
