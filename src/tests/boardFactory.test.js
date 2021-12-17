@@ -344,3 +344,16 @@ describe('#isAllPositionsAttacked returns if all positions has been attacked', (
   });
 });
 
+describe('#hasPosBeenAttacked returns if pos has been attacked', () => {
+  test('Returns false if pos has not been attacked', () => {
+    const board = boardFactory();
+    expect(board.hasPosBeenAttacked([0 , 0])).toBe(false);
+  });
+
+  test('Returns true if pos has been attacked', () => {
+    const board = boardFactory();
+
+    board.receiveAttack([0 , 0]);
+    expect(board.hasPosBeenAttacked([0, 0])).toBe(true);
+  });
+});
