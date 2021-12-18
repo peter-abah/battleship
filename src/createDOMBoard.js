@@ -1,9 +1,8 @@
 import PubSub from 'pubsub-js';
 import eventTypes from './eventTypes';
 
-const isShipPos = (board, pos) => {
-  board.ships.some((ship) => ship.isPos(pos));
-};
+const isShipPos = (board, pos) => board.ships.some((ship) => ship.isPos(pos));
+const isSunkShipPos = (board, pos) => board.sunkShips().some((ship) => ship.isPos(pos));
 
 const addClassNamesToCell = (cell, board, pos) => {
   cell.classList.add('board__cell');
@@ -15,6 +14,10 @@ const addClassNamesToCell = (cell, board, pos) => {
   if (isShipPos(board, pos)) {
     cell.classList.add('board__cell--ship');
   }
+
+  if (isSunkShipPos(board, pos)) {
+    cell.classList.add('board__cell--sunk-ship');
+  }
 };
 
 const createDOMBoard = (board) => {
@@ -22,16 +25,29 @@ const createDOMBoard = (board) => {
     if (data !== boardDom) return;
 
     board.attackedPositions.forEach(([y, x]) => {
-      const cellSelector = `[data ="${y}${x}"]`;
+      const cellSelector = `[data-pos="${y}${x}"]`;
       const cell = boardDom.querySelector(cellSelector);
       cell.classList.add('board__cell--attacked');
     });
 
-    const shipsPos = board.ships.reduce((acc, ship) => acc.concat(ship.positions), []);
+    const shipsPos = board.ships.reduce(
+      (acc, ship) => acc.concat(ship.positions),
+      []
+    );
     shipsPos.forEach(([y, x]) => {
       const cellSelector = `[data-pos="${y}${x}"]`;
       const cell = boardDom.querySelector(cellSelector);
       cell.classList.add('board__cell--ship');
+    });
+
+    const sunkShipsPos = board.sunkShips().reduce(
+      (acc, ship) => acc.concat(ship.positions),
+      []
+    );
+    sunkShipsPos.forEach(([y, x]) => {
+      const cellSelector = `[data-pos="${y}${x}"]`;
+      const cell = boardDom.querySelector(cellSelector);
+      cell.classList.add('board__cell--sunk-ship');
     });
   };
 
