@@ -1,0 +1,29 @@
+$base-ship-length: 2rem;
+
+.ships-wrapper {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.ship {
+  display: block;
+  height: 1rem;
+  margin: .5rem 0;
+  background: var(--color-ship);
+
+  &--carrier {
+    width: $base-ship-length * 5;
+  }
+
+  &--battleship {
+    width: $base-ship-length * 4;
+  }
+
+  &--cruiser {
+    width: $base-ship-length * 3;
+  }
+
+  &--destroyer {
+    width: $base-ship-length * 2;
+  }
+}
