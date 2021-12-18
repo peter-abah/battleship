@@ -36,7 +36,7 @@ const game = (players) => {
       currentPlayerIndex = nextPlayerIndex();
     }
 
-    PubSub.publish(eventTypes.UPDATE_UI, { players });
+    PubSub.publish(eventTypes.UPDATE_UI, { player: opponent });
 
     if (isGameEnd()) {
       PubSub.publish(eventTypes.GAME_END, { players, winner: currentPlayer });
