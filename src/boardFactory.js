@@ -73,6 +73,7 @@ const boardFactory = ({
     if (!attackedShip) return false;
 
     attackedShip.receiveAttack([y, x]);
+    attackedShipsPositions.push([y, x]);
     return true;
   };
 
@@ -88,6 +89,8 @@ const boardFactory = ({
     ships.push(ship);
     return true;
   };
+
+  let attackedShipsPositions = [];
 
   const sunkShips = () => ships.filter((ship) => ship.isSunk());
 
@@ -110,6 +113,7 @@ const boardFactory = ({
     height,
     allIndices,
     attackedPositions,
+    attackedShipsPositions,
     isAttackValid,
     receiveAttack,
     hasPosBeenAttacked,
