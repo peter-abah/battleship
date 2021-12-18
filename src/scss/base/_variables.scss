@@ -1,11 +1,19 @@
 :root {
-  --color-bg: #fafafa;
-  --color-primary: #111;
-  --color-cell-border: blue;
-  --color-ship: #333;
-  --color-cell-attacked: red;
-  --color-cell-sunk: green;
-  --color-cell-attacked-ship: purple;
+  --color-bg: #2b2d42ff;
+  --color-primary: #fffbffff;
+  --color-cell-border: #177e89ff;
+  --color-ship: #070707;
+  --color-cell-attacked: #177e89ff;
+  --color-cell-sunk-ship: darkgreen;
+  --color-cell-attacked-ship: #9b1d20ff;
+  --color-btn: #9b1d20ff;
+
+  --space-cadet: #2b2d42ff;
+  --ruby-red: #9b1d20ff;
+  --metallic-seaweed: #177e89ff;
+  --snow: #fffbffff;
+  --hookers-green: #496f5dff;
+  --olive-dart: #423B0B;
 
   --font: sans-serif;
 }
