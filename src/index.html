@@ -4,44 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BattleShip</title>
-
-  <style>
-    .board {
-      width: 400px;
-      height: 400px;
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: repeat(10, 1fr);
-      margin-bottom: 2rem;
-    }
-
-    .board__cell {
-      border: 1px solid maroon;
-    }
-
-    .board__cell--ship {
-      background-color: black;
-    }
-
-    .board__cell--attacked {
-      background-color: red;
-    }
-
-    .board__cell--attacked.board__cell--ship {
-      background-color: chocolate;
-    }
-
-    .board__cell.board__cell--sunk-ship {
-      background-color: green;
-    }
-
-    .ship {
-      width: 2rem;
-      height: 1.5rem;
-      margin: 1rem;
-      background: black;
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -52,16 +14,20 @@
     <div id="board-wrapper"></div>
 
     <div>
-      <div id="ships-wrapper"></div>
-      <button id="change-orientation">Change Ship Orientation</button>
+      <div id="ships-wrapper" class="ships-wrapper"></div>
+      <button id="change-orientation">Rotate Ship</button>
+      <button id="random-ships">Random Ship Placement</button>
+      <button id="reset-ships">Reset Ships</button>
     </div>
 
-    <button id="start" type="button">Start</button>
+    <button id="start-btn" type="button">Start</button>
   </section>
 
   <section id="game">
     <div id="player-board"></div>
     <div id="computer-board"></div>
+    <p id="message"></p>
+    <button id="new-game">New Game</button>
   </section>
 </body>
 </html>
