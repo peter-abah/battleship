@@ -1,0 +1,19 @@
+.board__cell {
+  border: 1px solid var(--color-cell-border);
+
+  &--ship {
+    background-color: var(--color-ship);
+  }
+
+  &--attacked {
+    background-color: var(--color-cell-attacked);
+  }
+
+  &--attacked-ship {
+    background-color: var(--color-cell-attacked-ship);
+  }
+
+  &--sunk-ship {
+    background-color: var(--color-cell-sunk-ship);
+  }
+}
