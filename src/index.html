@@ -12,10 +12,27 @@
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(10, 1fr);
+      margin-bottom: 2rem;
     }
 
     .board__cell {
       border: 1px solid maroon;
+    }
+
+    .board__cell--ship {
+      background-color: black;
+    }
+
+    .board__cell--attacked {
+      background-color: red;
+    }
+
+    .board__cell--attacked.board__cell--ship {
+      background-color: chocolate;
+    }
+
+    .board__cell.board__cell--sunk-ship {
+      background-color: green;
     }
 
     .ship {
@@ -40,6 +57,11 @@
     </div>
 
     <button id="start" type="button">Start</button>
+  </section>
+
+  <section id="game">
+    <div id="player-board"></div>
+    <div id="computer-board"></div>
   </section>
 </body>
 </html>
