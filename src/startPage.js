@@ -4,16 +4,17 @@ import boardFactory from './boardFactory';
 import shipFactory from './shipFactory';
 import createBattleships from './createBattleships';
 import createDOMBoard from './createDOMBoard';
+import randomBattleShipBoard from './randomBattleShipBoard';
 
-const HORIZONTAL_ORIENTATION = Object.freeze([1, 0]);
-const VERTICAL_ORIENTATION = Object.freeze([0, 1]);
+const HORIZONTAL_ORIENTATION = [0, 1];
+const VERTICAL_ORIENTATION = [1, 0];
 
 const createDOMShips = (ships) => {
   const shipNames = {
-    5: 'carrier',
-    4: 'battleship',
-    3: 'cruiser',
-    2: 'destroyer',
+    5: 'ship--carrier',
+    4: 'ship--battleship',
+    3: 'ship--cruiser',
+    2: 'ship--destroyer',
   };
 
   return ships.map((ship) => {
@@ -39,62 +40,101 @@ const startPage = () => {
     if (initBoard.canShipBeAdded(ship)) {
       initBoard.addShip(ship);
       selectedShip.remove();
+      shipLength = null;
       PubSub.publish(eventTypes.UPDATE_BOARD, dom.board);
     }
-
-    shipLength = null;
-    selectedShip.classList.remove('ship--selected');
 
     event.stopPropagation();
   };
 
+  const resetShips = () => {
+    initBoard = boardFactory();
+    const ships = createBattleships();
+
+    dom.ships = createDOMShips(ships);
+    dom.board = createDOMBoard(initBoard);
+
+    dom.board.addEventListener('click', addShip);
+    dom.ships.forEach((ship) => ship.addEventListener('click', selectShip));
+    addBoardAndShipsToDom();
+  };
+
   const selectShip = (event) => {
     shipLength = Number(event.target.dataset.length);
+    dom.ships.forEach((ship) => ship.classList.remove('ship--selected'));
     event.target.classList.add('ship--selected');
   };
 
-  const changeOrientation = () => {
-    if (orientation === HORIZONTAL_ORIENTATION) {
-      orientation = VERTICAL_ORIENTATION;
-    } else {
-      orientation = HORIZONTAL_ORIENTATION;
+  const changeOrientation = (event) => {
+    switch (event.target.value) {
+      case '0':
+        orientation = HORIZONTAL_ORIENTATION;
+        break;
+      case '1':
+        orientation = VERTICAL_ORIENTATION;
+        break;
+      default:
+        orientation = HORIZONTAL_ORIENTATION;
     }
+  };
+
+  const randomBoard = () => {
+    dom.shipsWrapper.replaceChildren();
+    dom.ships = [];
+
+    initBoard = randomBattleShipBoard();
+    dom.board = createDOMBoard(initBoard);
+    dom.boardWrapper.replaceChildren(dom.board);
   };
 
   const startGame = () => {
     if (initBoard.ships.length !== 5) return;
 
+    dom.parent.classList.toggle('section--hidden');
     PubSub.publish(eventTypes.GAME_START, { ships: initBoard.ships });
+    resetShips();
   };
 
   const addEventListeners = () => {
     dom.board.addEventListener('click', addShip);
     dom.ships.forEach((ship) => ship.addEventListener('click', selectShip));
     dom.startBtn.addEventListener('click', startGame);
-    dom.changeOrientationBtn.addEventListener('click', changeOrientation);
+    dom.orientationSelect.addEventListener('change', changeOrientation);
+    dom.randomShipsBtn.addEventListener('click', randomBoard);
+    dom.resetBtn.addEventListener('click', resetShips);
   };
 
   const addBoardAndShipsToDom = () => {
-    dom.boardWrapper.appendChild(dom.board);
+    dom.boardWrapper.replaceChildren(dom.board);
+
+    dom.shipsWrapper.replaceChildren();
     dom.ships.forEach((ship) => dom.shipsWrapper.appendChild(ship));
+  };
+
+  const newGame = () => {
+    dom.parent.classList.toggle('section--hidden');
   };
 
   let orientation = HORIZONTAL_ORIENTATION;
   let shipLength = null;
-  const initBoard = boardFactory();
+  let initBoard = boardFactory();
   const ships = createBattleships();
   const dom = {
     parent: document.getElementById('start'),
     boardWrapper: document.getElementById('board-wrapper'),
     shipsWrapper: document.getElementById('ships-wrapper'),
-    startBtn: document.getElementById('start'),
-    changeOrientationBtn: document.getElementById('change-orientation'),
+    startBtn: document.getElementById('start-btn'),
+    orientationSelect: document.getElementById('ship-orientation'),
+    randomShipsBtn: document.getElementById('random-ships'),
+    resetBtn: document.getElementById('reset-ships'),
     board: createDOMBoard(initBoard),
     ships: createDOMShips(ships),
   };
 
   addBoardAndShipsToDom();
   addEventListeners();
+
+  PubSub.subscribe(eventTypes.NEW_GAME, newGame);
 };
 
 export default startPage;

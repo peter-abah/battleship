@@ -14,6 +14,32 @@ const gameUI = () => {
     event.stopPropagation();
   };
 
+  const clearDOM = () => {
+    players = null;
+    dom.playerBoard = null;
+    dom.computerBoard = null;
+    dom.playerBoardWrapper.replaceChildren();
+    dom.computerBoardWrapper.replaceChildren();
+    dom.message.textContent = '';
+    dom.parent.classList.toggle('section--hidden');
+  };
+
+  const newGame = () => {
+    clearDOM();
+    PubSub.publish(eventTypes.NEW_GAME);
+  };
+
+  const endGame = (_, { winner }) => {
+    let message = 'Game over, ';
+    if (winner === players.player) {
+      message += 'You win';
+    } else {
+      message += 'You lost';
+    }
+
+    dom.message.textContent = message;
+  };
+
   const updateUI = (_, { player }) => {
     if (player === players.player) {
       PubSub.publish(eventTypes.UPDATE_BOARD, dom.playerBoard);
@@ -48,15 +74,21 @@ const gameUI = () => {
     addBoardsToDom();
 
     PubSub.subscribe(eventTypes.UPDATE_UI, updateUI);
+    PubSub.subscribe(eventTypes.GAME_END, endGame);
 
     const game = Game(Object.values(players));
+    dom.parent.classList.toggle('section--hidden');
     game.start();
   };
 
   const dom = {
+    parent: document.getElementById('game'),
+    message: document.getElementById('game-message'),
     playerBoardWrapper: document.getElementById('player-board'),
     computerBoardWrapper: document.getElementById('computer-board'),
+    newGameBtn: document.getElementById('new-game'),
   };
+  dom.newGameBtn.addEventListener('click', newGame);
 
   let players = null;
 
