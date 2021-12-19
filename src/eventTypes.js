@@ -6,6 +6,7 @@ const eventTypes = {
   UPDATE_BOARD: 'update board',
   GAME_START: 'game start',
   GAME_END: 'game end',
+  NEW_GAME: 'new game',
 };
 
 Object.freeze(eventTypes);
