@@ -16,7 +16,8 @@ const randomBattleShipBoard = () => {
     const ships = orientations.map((orientation) =>
       shipFactory({ startPos, length, orientation })
     );
-    return ships.filter((ship) => board.canShipBeAdded(ship))[0];
+    const validShips = ships.filter((ship) => board.canShipBeAdded(ship));
+    return randomElement(validShips);
   };
 
   const tryToAddShip = (length) => {
