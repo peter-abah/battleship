@@ -6,8 +6,8 @@ const shipFactory = ({
   const initPositions = () => {
     const positions = [startPos];
     for (let i = 1; i < length; i += 1) {
-      const [x, y] = positions[i - 1];
-      const next = [orientation[0] + x, orientation[1] + y];
+      const [y, x] = positions[i - 1];
+      const next = [orientation[0] + y, orientation[1] + x];
       positions[i] = next;
     }
     return positions;
