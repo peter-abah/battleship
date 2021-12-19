@@ -6,28 +6,43 @@
   <title>BattleShip</title>
 </head>
 <body>
-  <header>
-    <h1>BattleShip</h1>
+  <header class="header">
+    <h1 class="header__title">BattleShip</h1>
   </header>
 
-  <section id="start">
-    <div id="board-wrapper"></div>
+  <section id="start" class="section">
+    <div class="flex-wrapper">
+      <div id="board-wrapper"></div>
 
-    <div>
-      <div id="ships-wrapper" class="ships-wrapper"></div>
-      <button id="change-orientation">Rotate Ship</button>
-      <button id="random-ships">Random Ship Placement</button>
-      <button id="reset-ships">Reset Ships</button>
+      <section class="ships-section">
+        <div id="ships-wrapper" class="ships-wrapper"></div>
+
+        <div class="ships-btns">
+          <div class="ship-orientation-wrapper">
+            <label for="ship-orientation">Select orientation</label>
+            <select id="ship-orientation" class="btn">
+              <option value="0" selected>Horizontal</option>
+              <option value="1">Vertical</option>
+            </select>
+          </div>
+          
+          <button class="btn" id="random-ships">Random Ship Placement</button>
+          <button class="btn" id="reset-ships">Reset Ships</button>
+        </div>
+      </section>
     </div>
 
-    <button id="start-btn" type="button">Start</button>
+    <button class="new-game-btn btn btn--large" id="start-btn" type="button">Start Game</button>
   </section>
 
-  <section id="game">
-    <div id="player-board"></div>
-    <div id="computer-board"></div>
-    <p id="message"></p>
-    <button id="new-game">New Game</button>
+  <section id="game" class="section section--hidden">
+    <div class="flex-wrapper">
+      <div id="player-board"></div>
+      <div id="computer-board"></div>
+    </div>
+    
+    <p id="game-message" class="game__message"></p>
+    <button class="btn btn--large" id="new-game">New Game</button>
   </section>
 </body>
 </html>
